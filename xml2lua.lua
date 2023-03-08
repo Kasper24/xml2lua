@@ -51,6 +51,7 @@
 --@author Manoel Campos da Silva Filho
 local xml2lua = { _VERSION = "1.6-1" }
 local XmlParser = require("external.xml2lua.XmlParser")
+local gdebug = require("gears.debug")
 
 ---Recursivelly prints a table in an easy-to-ready format
 --@param tb The table to be printed
@@ -89,7 +90,9 @@ function xml2lua.parser(handler)
             stripWS = 1,
             expandEntities = 1,
             errorHandler = function(errMsg, pos)
-                error(string.format("%s [char=%d]\n", errMsg or "Parse Error", pos))
+                local err = string.format("%s [char=%d]\n", errMsg or "Parse Error", pos)
+                gdebug.print_error(err)
+                handler.error = err
             end
           }
 
